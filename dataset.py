@@ -28,7 +28,7 @@ class ImageReader(object):
             return img
         else:
             return self.cam.rectify(img)
-
+        
     def preload(self):
         idx = self.idx
         t = float('inf')
@@ -38,7 +38,7 @@ class ImageReader(object):
             if self.idx == idx:
                 time.sleep(1e-2)
                 continue
-
+            
             for i in range(self.idx, self.idx + self.ahead):
                 if i not in self.cache and i < len(self.ids):
                     self.cache[i] = self.read(self.ids[i])
@@ -46,7 +46,7 @@ class ImageReader(object):
                 return
             idx = self.idx
             t = time.time()
-
+    
     def __len__(self):
         return len(self.ids)
 
@@ -56,18 +56,18 @@ class ImageReader(object):
         if idx in self.cache:
             img = self.cache[idx]
             del self.cache[idx]
-        else:
+        else:   
             img = self.read(self.ids[idx])
         return img
 
     def __iter__(self):
         for i, timestamp in enumerate(self.timestamps):
             yield timestamp, self[i]
-        
+
     @property
     def dtype(self):
         return self[0].dtype
-
+        
     @property
     def shape(self):
         return self[0].shape
