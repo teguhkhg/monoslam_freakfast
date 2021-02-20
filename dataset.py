@@ -67,7 +67,7 @@ class ImageReader(object):
     @property
     def dtype(self):
         return self[0].dtype
-        
+
     @property
     def shape(self):
         return self[0].shape
@@ -80,8 +80,8 @@ class KITTIOdometry(object):
         cam04_12 = Cam(707.0912, 707.0912, 601.8873, 183.1104, 1241, 376)
 
         os.path.expanduser(path)
-        self.timestamps = np.loadtxt(os.path.join(path, "times.txt"))
-        self.reader = ImageReader(self.listdir(os.path.join(path, "image_0")), self.timestamps)
+        self.timestamp = np.loadtxt(os.path.join(path, "times.txt"))
+        self.reader = ImageReader(self.listdir(os.path.join(path, "image_0")), self.timestamp)
 
         sequence = int(path.strip(os.path.sep).split(os.path.sep)[-1])
         if sequence < 3:
