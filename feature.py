@@ -61,15 +61,15 @@ class ImageFeature(object):
         matches = dict()
         distances = defaultdict(lambda: float('inf'))
         for m, query_idx, train_idx in self.matched_by(descriptors):
-            if m.distance > min(distances[train_idx], self.distance):
-                continue
+            # if m.distance > min(distances[train_idx], self.distance):
+            #     continue
 
             pt1 = predictions[query_idx]
             pt2 = self.keypoints[train_idx].pt
             dx = pt1[0] - pt2[0]
             dy = pt1[1] - pt2[1]
-            if np.sqrt(dx*dx + dy*dy) > self.neighborhood:
-                continue
+            # if np.sqrt(dx*dx + dy*dy) > self.neighborhood:
+            #     continue
 
             matches[train_idx] = query_idx
             distances[train_idx] = m.distance
@@ -91,9 +91,6 @@ class ImageFeature(object):
 
     def row_match(self, *args, **kwargs):
         return row_match(self.matcher, *args, **kwargs)
-
-    def circular_stereo_match(self, *args, **kwargs):
-        return circular_stereo_match(self.matcher, *args, **kwargs)
 
     def get_keypoint(self, i):
         return self.keypoints[i]
