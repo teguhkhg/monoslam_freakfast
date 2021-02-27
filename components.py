@@ -109,3 +109,8 @@ class Frame(object):
         
     def get_unmatched_keypoints(self):
         return self.feature.get_unmatched_keypoints()
+
+class KeyFrame(Frame):
+    def __init__(self, idx, pose, feature, cam, timestamp=None, 
+            pose_covariance=np.identity(6)):
+        super().__init__(idx, pose, feature, cam, timestamp, pose_covariance)
