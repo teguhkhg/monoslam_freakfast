@@ -5,7 +5,7 @@ import numpy as np
 from dataset import KITTIOdometry
 from feature import ImageFeature
 from params import ParamsKITTI
-from components import Camera, Frame
+from components import Camera, Frame, StereoFrame
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -36,10 +36,9 @@ def main():
         if not prev:
             prev = frame
         else:
-            keypoints, descriptors, _ = prev.get_unmatched_keypoints()
-            points = np.asarray([[keypoint.pt[0], keypoint.pt[1], 1] for keypoint in keypoints])
-            matched_measurements = frame.find_matches(points, descriptors)
-            print(matched_measurements[0])
+            stereo = StereoFrame(frame, prev)
+            mappoints, measurements = stereo.triangulate()
+            print(len(mappoints), len(measurements))
 
 if __name__ == "__main__":
     main()
